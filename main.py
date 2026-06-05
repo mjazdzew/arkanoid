@@ -1,4 +1,4 @@
-import sys, pygame
+import sys, time, pygame
 from constants import SCREEN_WIDTH, SCREEN_HEIGHT, PLAYER_HEIGTH
 from player import Player
 from shots import PlayerShot, EnemyShot
@@ -10,6 +10,9 @@ def main():
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     clock = pygame.time.Clock()
     dt = 0.0
+    font = pygame.font.SysFont(None, 44)
+    game_over_screen = font.render('GAME OVER !', True, "white", "red")
+    game_over = False
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
     player_shots = pygame.sprite.Group()
@@ -30,19 +33,23 @@ def main():
         updatable.update(dt)
         for enemy in enemies:
             if enemy.collides_with(player):
-                print("Game over!")
-                sys.exit()
+                game_over = True
             for shot in player_shots:
                 if enemy.collides_with(shot):
                     shot.kill()
                     enemy.kill()
         for shot in enemy_shots:
             if shot.collides_with(player):
-                print("Game over!")
-                sys.exit()
+                game_over = True
         for sprite in drawable:
             sprite.draw(screen)
+        if game_over:
+            screen.blit(game_over_screen, ((SCREEN_WIDTH / 2) - (game_over_screen.get_width() / 2), (SCREEN_HEIGHT / 2) - (game_over_screen.get_height() / 2)))
         pygame.display.flip()
+        if game_over:
+            time.sleep(3)
+            print("Game over!")
+            sys.exit()
         dt = clock.tick(60) / 1000
 
 
