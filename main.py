@@ -1,4 +1,4 @@
-import pygame
+import sys, pygame
 from constants import SCREEN_WIDTH, SCREEN_HEIGHT, PLAYER_HEIGTH
 from player import Player
 from shots import PlayerShot, EnemyShot
@@ -28,6 +28,18 @@ def main():
                 return
         screen.fill("black")
         updatable.update(dt)
+        for enemy in enemies:
+            if enemy.collides_with(player):
+                print("Game over!")
+                sys.exit()
+            for shot in player_shots:
+                if enemy.collides_with(shot):
+                    shot.kill()
+                    enemy.kill()
+        for shot in enemy_shots:
+            if shot.collides_with(player):
+                print("Game over!")
+                sys.exit()
         for sprite in drawable:
             sprite.draw(screen)
         pygame.display.flip()

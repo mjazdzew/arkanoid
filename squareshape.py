@@ -35,6 +35,6 @@ class SquareShape(pygame.sprite.Sprite):
         return [a, b, c, d]
 
     def collides_with(self, other: Self) -> bool:
-        if self.position.distance_to(other.position) <= self.width + other.width:
+        if self.position.distance_to(other.position) <= (self.width / 2) + (other.width / 2):
             return True
         return False
