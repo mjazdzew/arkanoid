@@ -1,6 +1,6 @@
 import pygame
 from squareshape import SquareShape
-from shot import Shot
+from shots import PlayerShot
 from constants import PLAYER_HEIGTH, PLAYER_WIDTH, LINE_WIDTH, PLAYER_SPEED, PLAYER_SHOOT_SPEED, PLAYER_SHOOT_COOLDOWN_SECONDS
 
 class Player(SquareShape):
@@ -35,5 +35,5 @@ class Player(SquareShape):
                 self.shot_timer = PLAYER_SHOOT_COOLDOWN_SECONDS
 
     def shoot(self) -> None:
-        shot = Shot(self.position[0], self.position[1] - (self.heigth / 2))
+        shot = PlayerShot(self.position[0], self.position[1] - (self.heigth / 2))
         shot.velocity = pygame.Vector2(0, 1) * PLAYER_SHOOT_SPEED * (-1)
